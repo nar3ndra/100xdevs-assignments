@@ -15,9 +15,21 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { fileURLToPath } = require('url');
 const app = express();
 
-app.get('/files', (req,res)=>{
+app.get('/files', async (req,res)=>{
+//   let data;
+// try{
+//   data = await fs.promises.readdir(path.join(__dirname,'./files/'));
+
+// }catch(err){
+//   if(err){
+//     return res.status(500).json({error:'Failed to retrive files'})
+//   }
+//   res.json(data)
+// }
+
   fs.readdir(path.join(__dirname, './files/'), (err, files) => {
     if (err) {
         return res.status(500).json({ error: 'Failed to retrieve files' });
@@ -26,7 +38,18 @@ app.get('/files', (req,res)=>{
       });
     });
 
-app.get('/file/:filename',(req,res)=>{
+app.get('/file/:filename',async (req,res)=>{
+  let filename = req.params.filename;
+  let content;
+  try{
+    let obj = await fs.promises.readFile(path.join(__dirname,`./files/${filename}`))
+    content =obj.toString();
+  }catch(err){
+    if(err){
+      return res.status(404).send("File not found")
+    }
+  }
+  res.status(200).send(content);
   
 })
 
