@@ -15,9 +15,10 @@ return new Promise((resolve,reject) =>{
 
 
 async function timer(){
-    for(let i=0;i<100;i++){
+    while(1){
         await createPromise();
-        }
+    }
+        
 }
 
 
