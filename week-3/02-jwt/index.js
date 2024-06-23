@@ -15,35 +15,45 @@ const z = require('zod')
  */
 
 const userSchema = z.object({
-    username: z.string(),
+    username: z.string().email(),
     password: z.string().min(6)
 })
 
 function signJwt(username, password) {
-    let name = username;
-    let pwd = password;
-    const valid = userSchema.safeParse({
-        username: name,
-        password: pwd
-    })
-    if(!valid){
+
+    const {error, data} = userSchema.safeParse({username:username,password:password})
+    if(error){
         return null;
     }
-    return jwt.sign({username: name, password: pwd},jwtPassword);
+    else{
+        try{
+            return jwt.sign({username: username,password:password},jwtPassword)
+        }catch(err){
+            console.log('jwt sign er')
+            return null;
+        }
+    }
+    
 
 }
 
-/**
- * Verifies a JWT using a secret key.
- *
- * @param {string} token - The JWT string to verify.
- * @returns {boolean} Returns true if the token is valid and verified using the secret key.
- *                    Returns false if the token is invalid, expired, or not verified
- *                    using the secret key.
- */
-function verifyJwt(token) {
-    // Your code here
-}
+    /**
+     * Verifies a JWT using a secret key.
+     *
+     * @param {string} token - The JWT string to verify.
+     * @returns {boolean} Returns true if the token is valid and verified using the secret key.
+     *                    Returns false if the token is invalid, expired, or not verified
+     *                    using the secret key.
+     */
+    function verifyJwt(token) {
+        // Your code here
+        try{let decode = jwt.verify(token,jwtPassword)
+            return true;
+        }catch{
+            return false;
+        } 
+        
+    }
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
@@ -53,7 +63,13 @@ function verifyJwt(token) {
  *                         Returns false if the token is not a valid JWT format.
  */
 function decodeJwt(token) {
-    // Your code here
+    try{
+        const decoded = jwt.decode(token);
+        if(decoded)return true;
+        return false;
+    }catch{
+        return false;
+    }
 }
 
 
