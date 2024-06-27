@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('your-mongodb-url');
-
+//mongoose.connect('your-mongodb-url');
+const connection = await mongoose.createConnection("")
 // Define schemas
 const AdminSchema = new mongoose.Schema({
     // Schema definition here
