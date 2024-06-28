@@ -20,12 +20,5 @@ function adminMiddleware(req, res, next) {
 
 }
 
-const caller = async ()=>{
-    let data = await Admin.findOne({username:"user1"})
-    console.log(data)
-    return;
-}
-
-caller();
 
 module.exports = adminMiddleware;
