@@ -6,11 +6,12 @@ function adminMiddleware(req, res, next) {
     const userName = req.headers.username;
     const password = req.headers.password;
     Admin.findOne({
-        username: username,
-        password: pasword
+        username: userName,
+        password: password
     }).then(data =>{
         if(data){
             next();
+            console.log(data)
         }else{
             res.status(403).json({
                 message: "Admin does not exist"
