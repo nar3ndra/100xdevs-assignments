@@ -2,8 +2,10 @@ const express = require("express")
 const app = express()
 const {todoValidator, editTodoValidator, completedValidator} = require('./validate.js')
 const {todoModel} = require('./db.js')
+const cors = require('cors');
 
 app.use(express.json())
+app.use(cors())
 
 
 app.post('/todo',async (req,res) =>{
