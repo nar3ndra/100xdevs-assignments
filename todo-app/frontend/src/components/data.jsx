@@ -24,8 +24,3 @@ export const fetchTodos = async () =>{
 export const display = () =>{
     return "Hello from Data file";
 }
-
-
-
-
-
